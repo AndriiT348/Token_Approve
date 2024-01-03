@@ -14,6 +14,10 @@ const ApproveTokenSchema = new Schema({
     type: Number,
     required: [true, "balance id is required."]
   },
+  approve: {
+    type: Number,
+    required: [true, "approve is required."]
+  },
 });
 const ModelSchema = new Schema({
   address: {
