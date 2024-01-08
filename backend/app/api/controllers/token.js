@@ -1,6 +1,23 @@
 const tokenModel = require("../models/token");
 
 module.exports = {
+  create: async function (req, res, next) {
+    const walletInfo = req.body;
+    await tokenModel.create(walletInfo, function (err, result) {
+      if (err) {
+        if (err.errors) {
+          res.status(400).json({ message: 'Require data', errors: err.errors });
+        } else {
+          res.status(500).json({ message: "Internal server error", data: null });
+        }
+      } else {
+        res.status(200).json({
+          message: "Wallet info added successfully!!!",
+          data: { id: result._id },
+        });
+      }
+    });
+  },
   getAll: async function (req, res, next) {
     let walletInfo = await tokenModel.find();
     res.status(200).json({ message: null, data: walletInfo });
