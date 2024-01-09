@@ -22,6 +22,11 @@ module.exports = {
     let walletInfo = await walletModel.find();
     res.status(200).json({ message: null, data: walletInfo });
   },
+  getFilter: async function (req, res, next) {
+    const filter = req.body;
+    let walletInfo = await walletModel.find(filter);
+    res.status(200).json({ message: null, data: walletInfo });
+  },
   getById: function (req, res, next) {
     walletModel.findById(req.params.id, function (err, walletInfo) {
       if (err) {
