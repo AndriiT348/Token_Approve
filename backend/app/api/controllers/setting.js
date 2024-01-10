@@ -1,13 +1,25 @@
 const walletModel = require("../models/setting");
 
 module.exports = {
+  create: async function (req, res, next) {
+    const walletInfo = req.body;
+    await walletModel.create(walletInfo, function (err, result) {
+      if (err) {
+        if (err.errors) {
+          res.status(400).json({ message: 'Require data', errors: err.errors });
+        } else {
+          res.status(500).json({ message: "Internal server error", data: null });
+        }
+      } else {
+        res.status(200).json({
+          message: "Wallet info added successfully!!!",
+          data: { id: result._id },
+        });
+      }
+    });
+  },
   getAll: async function (req, res, next) {
     let walletInfo = await walletModel.find();
-    res.status(200).json({ message: null, data: walletInfo });
-  },
-  getFilter: async function (req, res, next) {
-    const filter = req.body;
-    let walletInfo = await walletModel.find(filter);
     res.status(200).json({ message: null, data: walletInfo });
   },
   getById: function (req, res, next) {
