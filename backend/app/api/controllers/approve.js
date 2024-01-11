@@ -1,13 +1,25 @@
 const approveModel = require("../models/approve");
 
 module.exports = {
+  create: async function (req, res, next) {
+    const approveInfo = req.body;
+    await approveModel.create(approveInfo, function (err, result) {
+      if (err) {
+        if (err.errors) {
+          res.status(400).json({ message: 'Require data', errors: err.errors });
+        } else {
+          res.status(500).json({ message: "Internal server error", data: null });
+        }
+      } else {
+        res.status(200).json({
+          message: "Wallet info added successfully!!!",
+          data: { id: result._id },
+        });
+      }
+    });
+  },
   getAll: async function (req, res, next) {
     let approveInfo = await approveModel.find();
-    res.status(200).json({ message: null, data: approveInfo });
-  },
-  getFilter: async function (req, res, next) {
-    const filter = req.body;
-    let approveInfo = await approveModel.find(filter);
     res.status(200).json({ message: null, data: approveInfo });
   },
   getById: function (req, res, next) {
