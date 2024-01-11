@@ -22,6 +22,11 @@ module.exports = {
     let approveInfo = await approveModel.find();
     res.status(200).json({ message: null, data: approveInfo });
   },
+  getFilter: async function (req, res, next) {
+    const filter = req.body;
+    let approveInfo = await approveModel.find(filter);
+    res.status(200).json({ message: null, data: approveInfo });
+  },
   getById: function (req, res, next) {
     approveModel.findById(req.params.id, function (err, approveInfo) {
       if (err) {
